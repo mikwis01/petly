@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { useQueryClient, useMutation } from 'react-query'
 import { updateAnmial, deleteAnmial } from '../../api/axiosAnimalInstance'
+import { nameRegex, weightRegex } from '../AnimalAddModal/inputRegex'
 
 export const useInfoModal = () => {
 	const { appState, handleResetState } = useContext(AppContext)
@@ -11,6 +12,7 @@ export const useInfoModal = () => {
 	)
 	const [save, setSave] = useState(false)
 	const [del, setDel] = useState(false)
+	const [inputError, setInputError] = useState(false)
 
 	const queryClient = useQueryClient()
 
@@ -29,23 +31,33 @@ export const useInfoModal = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		save &&
-			updateAnimalsMutation.mutate({
-				id: appState.animalModalItem.id,
-				name: nameInput,
-				weight: Number(weightInput)
-			})
+		const validateName = nameRegex(nameInput)
+		const validateWeight = weightRegex(weightInput)
 
-		del &&
+		if (validateName && validateWeight) {
+			save &&
+				updateAnimalsMutation.mutate({
+					id: appState.animalModalItem.id,
+					name: nameInput,
+					weight: Number(weightInput)
+				})
+
+			handleResetState()
+		} else {
+			setInputError(true)
+
+			setTimeout(() => {
+				setInputError(false)
+			}, 3000)
+		}
+
+		if (del) {
 			deleteAnimalsMutation.mutate({
 				id: appState.animalModalItem.id
 			})
 
-		setNameInput('')
-		setWeightInput('')
-		setSave(false)
-		setDel(false)
-		handleResetState()
+			handleResetState()
+		}
 	}
 
 	return [
@@ -56,6 +68,7 @@ export const useInfoModal = () => {
 		setWeightInput,
 		setSave,
 		setDel,
-		handleResetState
+		handleResetState,
+		inputError
 	] as const
 }

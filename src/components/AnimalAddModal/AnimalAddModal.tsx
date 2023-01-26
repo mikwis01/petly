@@ -9,7 +9,8 @@ export const AnimalAddModal = () => {
 		setNameInput,
 		handleResetState,
 		weightInput,
-		setWeightInput
+		setWeightInput,
+		inputError
 	] = useAddModal()
 
 	return (
@@ -50,7 +51,15 @@ export const AnimalAddModal = () => {
 					/>
 				</div>
 
-				<div className="w-5/6 flex gap-5">
+				<div className="w-5/6 flex flex-col gap-3">
+					{inputError && (
+						<div className="w-full bg-red-500 h-8 grid items-center rounded-md text-center">
+							<p className="text-white text-xs font-bold">
+								Validation error - enter proper values!
+							</p>
+						</div>
+					)}
+
 					<button className="bg-amber-500 w-full h-12 flex items-center justify-center rounded-md gap-3 text-white font-bold">
 						<p>SAVE</p>
 						<FaSave />

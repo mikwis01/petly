@@ -2,13 +2,15 @@ import { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { useQueryClient, useMutation } from 'react-query'
 import { createAnmial } from '../../api/axiosAnimalInstance'
+import { nameRegex, weightRegex } from './inputRegex'
 
 export const useAddModal = () => {
+	const queryClient = useQueryClient()
+
 	const { handleResetState } = useContext(AppContext)
 	const [nameInput, setNameInput] = useState('')
 	const [weightInput, setWeightInput] = useState('')
-
-	const queryClient = useQueryClient()
+	const [inputError, setInputError] = useState(false)
 
 	const createAnimalsMutation = useMutation(createAnmial, {
 		onSuccess: () => {
@@ -19,14 +21,23 @@ export const useAddModal = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		createAnimalsMutation.mutate({
-			name: nameInput,
-			weight: Number(weightInput)
-		})
+		const validateName = nameRegex(nameInput)
+		const validateWeight = weightRegex(weightInput)
 
-		setNameInput('')
-		setWeightInput('')
-		handleResetState()
+		if (validateName && validateWeight) {
+			createAnimalsMutation.mutate({
+				name: nameInput,
+				weight: Number(weightInput)
+			})
+
+			handleResetState()
+		} else {
+			setInputError(true)
+
+			setTimeout(() => {
+				setInputError(false)
+			}, 3000)
+		}
 	}
 
 	return [
@@ -36,6 +47,6 @@ export const useAddModal = () => {
 		handleResetState,
 		weightInput,
 		setWeightInput,
-		handleResetState
+		inputError
 	] as const
 }

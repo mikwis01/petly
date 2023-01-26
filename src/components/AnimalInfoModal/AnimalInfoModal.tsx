@@ -11,7 +11,8 @@ export const AnimalInfoModal = () => {
 		setWeightInput,
 		setSave,
 		setDel,
-		handleResetState
+		handleResetState,
+		inputError
 	] = useInfoModal()
 
 	return (
@@ -52,23 +53,32 @@ export const AnimalInfoModal = () => {
 					/>
 				</div>
 
-				<div className="w-5/6 flex gap-5">
-					<button
-						onClick={() => {
-							setSave(true)
-						}}
-						className="bg-amber-500 w-1/2 h-12 flex items-center justify-center rounded-md gap-3 text-white font-bold">
-						<p>SAVE</p>
-						<FaSave />
-					</button>
-					<button
-						onClick={() => {
-							setDel(true)
-						}}
-						className="bg-red-500 w-1/2 h-12 flex items-center justify-center rounded-md gap-3 text-white font-bold">
-						<p>DELETE</p>
-						<FaTrash />
-					</button>
+				<div className="w-5/6 flex flex-col gap-3">
+					{inputError && (
+						<div className="w-full bg-red-500 h-8 grid items-center rounded-md text-center">
+							<p className="text-white text-xs font-bold">
+								Validation error - enter proper values!
+							</p>
+						</div>
+					)}
+					<div className="w-full flex gap-5">
+						<button
+							onClick={() => {
+								setSave(true)
+							}}
+							className="bg-amber-500 w-1/2 h-12 flex items-center justify-center rounded-md gap-3 text-white font-bold">
+							<p>SAVE</p>
+							<FaSave />
+						</button>
+						<button
+							onClick={() => {
+								setDel(true)
+							}}
+							className="bg-red-500 w-1/2 h-12 flex items-center justify-center rounded-md gap-3 text-white font-bold">
+							<p>DELETE</p>
+							<FaTrash />
+						</button>
+					</div>
 				</div>
 
 				<button
