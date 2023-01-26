@@ -22,10 +22,12 @@ const App = () => {
 					<SignInRequest />
 				</>
 			) : (
-				<Main>
+				<>
 					<WeatherInfo />
-					<List />
-				</Main>
+					<Main>
+						<List />
+					</Main>
+				</>
 			)}
 
 			{appState.animalAddModal && <AnimalAddModal />}
