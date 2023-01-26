@@ -7,6 +7,7 @@ import { AnimalAddModal } from './components/AnimalAddModal/AnimalAddModal'
 import { AnimalInfoModal } from './components/AnimalInfoModal/AnimalInfoModal'
 import { useAuth0 } from '@auth0/auth0-react'
 import { SignInRequest } from './components/SignInRequest/SignInRequest'
+import { WeatherInfo } from './components/WeatherInfo/WeatherInfo'
 
 const App = () => {
 	const { appState } = useContext(AppContext)
@@ -17,9 +18,12 @@ const App = () => {
 			<Nav />
 
 			{!isAuthenticated ? (
-				<SignInRequest />
+				<>
+					<SignInRequest />
+				</>
 			) : (
 				<Main>
+					<WeatherInfo />
 					<List />
 				</Main>
 			)}

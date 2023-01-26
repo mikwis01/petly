@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { useQueryClient, useMutation } from 'react-query'
-import { updateAnmial, deleteAnmial } from '../../api/axiosInstance'
+import { updateAnmial, deleteAnmial } from '../../api/axiosAnimalInstance'
 
 export const useInfoModal = () => {
 	const { appState, handleResetState } = useContext(AppContext)

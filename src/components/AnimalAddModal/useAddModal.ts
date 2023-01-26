@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { useQueryClient, useMutation } from 'react-query'
-import { createAnmial } from '../../api/axiosInstance'
+import { createAnmial } from '../../api/axiosAnimalInstance'
 
 export const useAddModal = () => {
 	const { handleResetState } = useContext(AppContext)
